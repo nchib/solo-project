@@ -1,0 +1,41 @@
+const Game = require('../models/gameModel');
+
+const listController = {};
+
+/**Middlewares needed:
+ * Getting all of this specific user's games
+ * Adding game names to their database using the user schema
+ * Deleting games from said database
+ * 
+ */
+
+//middleware to grab all the games for this user
+listController.getGames = (req, res, next) =>{
+    console.log('Checking inside listController.getGames');
+    Game.find()
+    .then (result => {
+        // console.log(result);
+        res.locals.list = result;
+        // console.log(res.locals.list)
+    })
+    .then (() => next())
+    
+    // return next();
+}
+
+//middleware to create games for this user
+listController.addGames = (req, res, next) =>{
+
+    Game.create({
+        game : req.body.game
+    })
+    //this adds the game to the db, but then how do I update the page/re render it?
+    // .then (res.locals.gamesList = Game.find())
+    .then(() => next())
+    
+}
+
+//middleware to delete game for this user
+// listController.deleteGames = (req, res)
+
+module.exports = listController;
